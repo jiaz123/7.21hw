@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>放大镜</title>
+
+    <style>
+        body,ul,li{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .box{
+            margin: 0 auto;
+            width: 836px;
+            height: 418px;
+        }
+        .big-box{
+            width: 418px;
+            height: 418px;
+            float: left;
+            position: relative;
+        }
+        .big-drag{
+            width: 100px;
+            height: 100px;
+            opacity: .8;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgb(228, 217, 217);
+            z-index: 1;
+        }
+        .big-img{
+            width: 418px;
+            height: 418px;
+            float: left;
+            /* display: none; */
+            position: absolute;
+            left: 0;
+            top: 0;;
+        }
+        .big-img img{
+            width: 418px;
+            height: 418px;
+        }
+        .look{
+            width: 418px;
+            height: 418px;
+            /* background: #ccc; */
+            float: left;
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="box">
+        <div class="big-box">
+            <div class="big-drag"></div>
+            <div class="big-img">
+                <img src="big.jpg" alt="">
+            </div>
+        </div>
+        
+        <div class="look">
+
+        </div>
+    </div>
+
+    <script src="drag.js"></script>
+    <script>
+        var bigDrag = document.querySelector(".big-drag");
+        var bigImg = document.querySelector(".big-img")
+        var look = document.querySelector(".look")
+        bigDrag.onmousedown = function(ev){
+            //距离浏览器的距离
+            var cx = ev.clientX;
+            var cy = ev.clientY;
+            var ox = bigDrag.offsetLeft;
+            var oy = bigDrag.offsetTop;
+            var downx = cx-ox;
+            var downy = cy-oy;
+
+            //获取容器和放大镜尺寸
+            var bigImgW = parseInt(getComputedStyle(bigImg).width)
+            var bigImgH = parseInt(getComputedStyle(bigImg).height)
+            var bigDragW = parseInt(getComputedStyle(bigDrag).width)
+            var bigDragH = parseInt(getComputedStyle(bigDrag).height)
+
+            document.onmousemove = function(ev){
+                var moveX = ev.clientX;
+                var moveY = ev.clientY;
+                x=moveX-downx
+                y=moveY-downy
+                //判断x,y
+                if(x<0){
+                    x=0;
+                }
+                
+                if(x>bigImgW-bigDragW){
+                    x=bigImgW-bigDragW
+                }
+                if(y<0){
+                    y=0;
+                }
+                if(y>bigImgH-bigDragH){
+                    y=bigImgH-bigDragH
+                }
+                bigDrag.style.left = x +"px";
+                bigDrag.style.top = y +"px";
+                look.style.cssText = "display:block;background: url('big.jpg') -"+ x*(bigImgW/bigDragW) +"px -"+y*(bigImgH/bigDragH)+"px no-repeat;"+"background-size:"+(bigImgW/bigDragW)*100+"%";
+                console.log(look.style.background);
+                ev.preventDefault();//终止浏览器的默认行为
+            }
+
+            document.onmouseup = function(ev){
+                document.onmousemove = null;
+                document.onmouseup = null;
+                
+            }
+		}
+    </script>
+
+</body>
+</html>
