@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -194,18 +195,20 @@
                             divs[i].style.display = "none";    
                             var live_count = parseInt(live.textContent.slice(5));
                             live.textContent = "live:"+(live_count-10);
-                            if((live_count-10)<=0){
+                            if((live_count-10)==0){
                                 //die
-                                var count_count = parseInt(count.textContent.slice(6));           
+                                var count_count = parseInt(count.textContent.slice(6));         
                                 alert("您的最终分数为:"+count_count)
                                 for(var i=0;i<divs.length;i++){
                                     document.body.removeChild(divs[i]);
                                 }
+                                divs=[]
                                 countBox.style.display="none"
                                 box.style.display="block"
                                 level.style.display="block"
                                 clearInterval(t);    
-                            }else{  
+                                break
+                            }else if((live_count-10)>0){  
                                 create(1)
                             }
                         }
