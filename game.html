@@ -143,7 +143,8 @@
         var createColor = function(){
             return "rgb("+createRandom(255)+","+createRandom(255)+","+createRandom(255)+")"
         }
-        var letters=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+        var letters=[{letter:"A",img:"imgs/A.png"},{letter:"B",img:"imgs/B.png"},{letter:"C",img:"imgs/C.png"},{letter:"D",img:"imgs/D.png"},{letter:"E",img:"imgs/E.png"},{letter:"F",img:"imgs/F.png"},{letter:"G",img:"imgs/G.png"},{letter:"H",img:"imgs/H.png"},{letter:"I",img:"imgs/I.png"},{letter:"J",img:"imgs/J.png"},{letter:"K",img:"imgs/K.png"},{letter:"L",img:"imgs/L.png"},{letter:"M",img:"imgs/M.png"},{letter:"N",img:"imgs/N.png"},{letter:"O",img:"imgs/O.png"},{letter:"P",img:"imgs/P.png"},{letter:"Q",img:"imgs/Q.png"},{letter:"R",img:"imgs/R.png"},{letter:"S",img:"imgs/S.png"},{letter:"T",img:"imgs/T.png"},{letter:"U",img:"imgs/U.png"},{letter:"V",img:"imgs/V.png"},{letter:"W",img:"imgs/W.png"},{letter:"X",img:"imgs/X.png"},{letter:"Y",img:"imgs/Y.png"},{letter:"Z",img:"imgs/Z.png"}]
+        
         var le_length = letters.length;
         var divs = [];    
         
@@ -159,7 +160,8 @@
             }
             for(var i=0;i<current.length;i++){
                 var div = document.createElement("div");
-                div.innerHTML = current[i];
+                div.innerHTML = "<img src="+current[i].img+">";
+                div.setAttribute("letter",current[i].letter)
                 div.style.cssText = "position :absolute;left:"+((bgW-10)*createRandom()+bgLeft)+"px;top:"+createRandom(40)+"px;font-size:"+(30+createRandom(20))+"px;color:"+createColor();              
                 document.body.appendChild(div);
                 divs.push(div);
@@ -178,6 +180,8 @@
             countBox.style.display = "block"
             live.textContent = "live:100"
             count.textContent = "count:0"
+
+            var count_count = parseInt(count.textContent.slice(6)); 
             var num = parseInt(document.getElementById("num").value)
             var speed = parseInt(document.getElementById("speed").value)
             if(isNaN(num)||isNaN(speed)){
@@ -195,9 +199,9 @@
                             divs[i].style.display = "none";    
                             var live_count = parseInt(live.textContent.slice(5));
                             live.textContent = "live:"+(live_count-10);
+                            
                             if((live_count-10)==0){
                                 //die
-                                var count_count = parseInt(count.textContent.slice(6));         
                                 alert("您的最终分数为:"+count_count)
                                 for(var i=0;i<divs.length;i++){
                                     document.body.removeChild(divs[i]);
